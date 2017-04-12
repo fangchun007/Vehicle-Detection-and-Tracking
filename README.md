@@ -65,23 +65,25 @@ This classifier and the scaler were saved using pickle library, which will be us
 
 There are at least two ways to implement a sliding window search. Either use a size-fixed window to silde in different scaled image, or use different sized window to slide in the same image. I tried both methods. In this submission, only the first method is considered. 
 
-In detail, we only search vehicles in a reasonable region, namely, around [0,1280] * [400,656]. For the upper 2/3 part of interested region, we search with small scales. For the lower 2/3 (not 1/3) part of the interested region, we search with larger scales. To decide which scales we are going to use, I first extract (see the bottom of [])
+In detail, we only search vehicles in a reasonable region, namely, around [0,1280] * [400,656]. For the upper 2/3 part of interested region, we search with small scales. For the lower 2/3 (not 1/3) part of the interested region, we search with larger scales. To decide which scales we are going to use, I first extract (see the bottom of [detectVehicle.ipynb](./detectVehicle_v5.ipynb) for the code) several representative images from 'project_video.mp4' as [test images](./test_images). Then, I try various scales on these images and pick out the most effective ones. 
 
+2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+Ultimately I searched on scales [1.1, 1.4, 1.5, 1.6, 1.7, 1.8, 2.3, 2.3, 2.5, 2.8, 2.9] using YCrCb 3-channel HOG features in the feature vector, which provided a nice result.  Here are some example images:
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+![alt text][image5]
+![alt text][image6]
 
-![alt text][image4]
 ---
 
 ### Video Implementation
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+
+Here's a [link to my video result](./project_video_output.mp4)
 
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
@@ -103,6 +105,9 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ###Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+
+The biggest problem I met here is time costing. I am looking for a more efficient method. The second problem is 
+
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
