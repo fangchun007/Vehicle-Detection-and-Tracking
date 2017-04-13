@@ -76,15 +76,14 @@ In detail, we only search vehicles in a reasonable region, namely, around [0,128
 Ultimately I searched on scales [1.1, 1.4, 1.8, 2.3, 2.6, 2.9] using YCrCb 3-channel HOG features in the feature vector, which provided a nice result.  Here are some example image and video:
 
 ![alt text][image8]
-![alt text][video2]
-
+and [a test video](./output_test2.mp4)
 ---
 
 ### Video Implementation
 
 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
-Here's a [link to my video result](./project_video_output.mp4)
+Here's a [link to my video result](./output_project_video.mp4)
 
 
 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
@@ -95,17 +94,11 @@ I recorded the positions of positive detections in each frame of the video.  Fro
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
-### Here are six frames and their corresponding heatmaps:
-
 ![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
 ![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
 ![alt text][image7]
 
-
+Since the vehicle detection of a video should have a continuous output, I used the former 25 frames' result to make the final output smooth. 
 
 ---
 
@@ -113,7 +106,11 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-The biggest problem I met here is time costing. I am looking for a more efficient method. The second problem is 
+* The biggest problem is how to figure out an efficient algorithm. For example, one can search all interested field with every single possible scale, but it is time consuming. Because of this, I collect some representative images and chunks from the test video and pick out the most useful scales. Moreover, each scale only applied to the searching of a specific zone.
+
+* The second problem is how to make the output smooth and reduce false positives. In the submition, I used an average method. Namely, use a global variable to collect former n-frames' heatmap information, and combine them with present heatmap output to obtain a present detection. I think we can also combine previous n-frames' bbox information (with threshold filter) and present ones as the input of a new heatmap with a possibly higher threshold. I guess this method would work too.
+
+* It is very interesting that the algorithm is very sensitive to the setting of scales, which need an explanation.
 
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
