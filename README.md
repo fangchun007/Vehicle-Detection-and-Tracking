@@ -69,7 +69,7 @@ This classifier and the scaler were saved using pickle library, which will be us
 
 There are at least two ways to implement a sliding window search. Either use a size-fixed window to silde in different scaled image, or use different sized window to slide in the same image. I tried both methods. In this submission, only the first method is considered. 
 
-In detail, we only search vehicles in a reasonable region, namely, around [0,1280] * [400,656]. For the upper 3/4 part of interested region, we search with small scales. For the lower 3/4 (not 1/4) part of the interested region, we search with larger scales. To decide which scales we are going to use, I first extract (refer to [detectVehicle_v6.ipynb](./detectVehicle_v6.ipynb) for the code) several representative images and cut two chunks from 'project_video.mp4' as [test images](./test_images) [test video](./test2.mp4). Then, I tried various scales on these images and pick out the most effective ones. 
+In detail, we only search vehicles in a reasonable region, namely, around [0,1280] * [400,656]. For the upper 3/4 part of interested region, we search with small scales. For the lower 3/4 (not 1/4) part of the interested region, we search with larger scales. To decide which scales we are going to use, I first extract (refer to [detectVehicle_final.ipynb](./detectVehicle_final.ipynb) for the code) several representative images and cut two chunks from 'project_video.mp4' as [test images](./test_images) [test video](./test2.mp4). Then, I tried various scales on these images and pick out the most effective ones. 
 
 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
