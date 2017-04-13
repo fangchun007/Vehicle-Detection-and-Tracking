@@ -14,10 +14,14 @@ The goals / steps of this project are the following:
 [image2]: ./output_images/hog_v1.jpg
 [image3]: ./output_images/hog_v2.jpg
 [image4]: ./output_images/hog_v3.jpg
-[image5]: ./output_images/
-[image6]: ./output_images/
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
+[image5]: ./output_images/heatmap1.jpg
+[image6]: ./output_images/heatmap5.jpg
+[image7]: ./output_images/heatmap12.jpg
+[image8]: ./output_images/pipeline1.jpg
+[image9]: ./output_images/
+[image10]: ./output_images/
+[video1]: ./output_project_video.mp4
+[video2]: ./output_test2.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -69,10 +73,10 @@ In detail, we only search vehicles in a reasonable region, namely, around [0,128
 
 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on scales [1.1, 1.4, 1.5, 1.6, 1.7, 1.8, 2.3, 2.3, 2.5, 2.8, 2.9] using YCrCb 3-channel HOG features in the feature vector, which provided a nice result.  Here are some example images:
+Ultimately I searched on scales [1.1, 1.4, 1.8, 2.3, 2.6, 2.9] using YCrCb 3-channel HOG features in the feature vector, which provided a nice result.  Here are some example image and video:
 
-![alt text][image5]
-![alt text][image6]
+![alt text][image8]
+![alt text][video2]
 
 ---
 
@@ -84,6 +88,8 @@ Here's a [link to my video result](./project_video_output.mp4)
 
 
 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+
+the "hot" parts of the map are where the cars are, and by imposing a threshold, you can reject areas affected by false positives.
 
 I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
