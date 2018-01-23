@@ -4,7 +4,7 @@
 
 The goals / steps of this project are the following:
 
-* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
+* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a Linear SVM classifier
 * Implement a sliding-window technique and use the trained classifier to search for vehicles in images.
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
@@ -23,7 +23,12 @@ The goals / steps of this project are the following:
 [video1]: ./output_project_video.mp4
 [video2]: ./output_test2.mp4
 
-## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
+## Tracking Pipeline
+Suppose the video is given. 
+
+For each frame of the video, we run a search for vehicles using a sliding window technique. Wherever the trained classifier (here we trained a Linear SVM classifier) returns a positive detection, we record the position of the window. In some cases, it might detect the same vehicle in overlapping windows or different scales. In the case of overlapping detections, we assign the position of the detection to the centroid of the overlapping windows. We filter out the false positives by determining which detections appear in one frame but not the next. Once we have obtain a high confidence detection, we record how it's centroid is moving from frame to frame and eventually estimate where it will appear in each subsequent frame.
+
+## Implementation Details
 Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
