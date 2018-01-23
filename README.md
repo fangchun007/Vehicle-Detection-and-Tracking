@@ -2,7 +2,7 @@
 
 ## Introduction 
 
-The goals / steps of this project are the following:
+In this project, the goal is to write a software pipeline to identify vehicles in a video from a front-facing camera on a car. Concretely, we do:
 
 * Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a Linear SVM classifier
 * Implement a sliding-window technique and use the trained classifier to search for vehicles in images.
@@ -27,6 +27,12 @@ The goals / steps of this project are the following:
 Suppose the video is given. 
 
 For each frame of the video, we run a search for vehicles using a sliding window technique. Wherever the trained classifier (here we trained a Linear SVM classifier) returns a positive detection, we record the position of the window. In some cases, it might detect the same vehicle in overlapping windows or different scales. In the case of overlapping detections, we assign the position of the detection to the centroid of the overlapping windows. We filter out the false positives by determining which detections appear in one frame but not the next. Once we have obtain a high confidence detection, we record how it's centroid is moving from frame to frame and eventually estimate where it will appear in each subsequent frame.
+
+## Dataset
+We use [vehicles](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/vehicles.zip) and [non-vehicles](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/non-vehicles.zip) in training the linear SVM classifier.
+
+These datasets are comprised of images taken from the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html), the [KITTI vision benchmark suite](http://www.cvlibs.net/datasets/kitti/), and examples extracted from the project video itself.
+
 
 ## Implementation Details
 Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
